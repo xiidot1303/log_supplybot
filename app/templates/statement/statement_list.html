@@ -1,0 +1,52 @@
+{% extends "layout/basic.html" %}
+
+{% block main %}
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">Заявления</h4>
+                </div>
+                <div class="header-action">
+                    <a href="{% url 'statement_create' %}">
+                        <button class="btn btn-primary btn-sm">Создать</button>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                           <tr>
+                              <!-- <th scope="col">#</th> -->
+                              <th scope="col">Направление</th>
+                              <th scope="col">Дата отгрузки</th>
+                              <th scope="col">Дата окончания</th>
+                              <th scope="col">Тип транспорта</th>
+                              <th scope="col">Груз</th>
+                              <th scope="col">Грузоподъемность</th>
+                              <th scope="col">Вес</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                            {% for statement in statements %}
+                           <tr onclick="window.location.href='{% url 'request-list' statement.pk %}';" style="cursor:pointer;">
+                              <!-- <th scope="row">1</th> -->
+                              <td>{{ statement.direction }}</td>
+                              <td>{{ statement.shipment_date }}</td>
+                              <td>{{ statement.end_date }}</td>
+                              <td>{{ statement.transport_type }}</td>
+                              <td>{{ statement.cargo }}</td>
+                              <td>{{ statement.load_capacity }}</td>
+                              <td>{{ statement.weight }}</td>
+                           </tr>
+                           {% endfor %}
+                        </tbody>
+                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

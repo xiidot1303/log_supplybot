@@ -1,0 +1,21 @@
+{% extends "layout/basic.html" %}
+
+{% block main %}
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Your request</h4>
+                <ul class="list-group list-group-flush">
+                    {% with request_of_user as request %}
+                    <li class="list-group-item"></li>
+                    {% endwith %}
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
