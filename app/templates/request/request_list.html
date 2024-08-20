@@ -5,17 +5,106 @@
 <div class="row">
     <div class="col">
         <div class="card">
+            {% with request_of_user as request %}
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">Ваше предложение</h4>
+                </div>
+                <div class="header-action">
+                    <button type="button" data-toggle="modal" data-target="#requestModal"
+                     class="btn btn-outline-primary rounded-pill btn-sm">
+                        {% if request %}
+                        <i class="fas fa-edit"></i>
+                        {% else %}
+                        <i class="fas fa-plus"></i>
+                        {% endif %}
+                    </button>
+                </div>
+            </div>
             <div class="card-body">
-                <h4 class="card-title">Your request</h4>
+    
                 <ul class="list-group list-group-flush">
-                    {% with request_of_user as request %}
-                    <li class="list-group-item"></li>
-                    {% endwith %}
+                    <li class="list-group-item">
+                        <b>Цена:</b> {{ request.price }} {{ request.currency }}
+                    </li>
+                    <li class="list-group-item">
+                        <b>Дата и время:</b> {{ request.datetime|date:"d.m.Y H:i" }}
+                    </li>
+                    <li class="list-group-item">
+                        <b>Комментарий:</b> {{ request.comment }}
+                    </li>
                 </ul>
             </div>
-
+        {% endwith %}
         </div>
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="requestModal" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="requestModalLabel">Изменение вашего предложения</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               <div class="modal-body">
+                   {% for f in form %}
+                 <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                {{ f.errors }} 
+                                <label for="{{f.id_for_label}}">{{ f.label }}</label>    
+                                {{ f }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                  <button type="submit" class="btn btn-primary">Сохранить</button>
+               </div>
+            </div>
+        </form>
+    </div>
+ </div>
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>№</th>
+                                <th scope="col">Цена</th>
+                                <th scope="col">Дата и время:</th>
+                                <th scope="col">Комментарий:</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for request in requests_of_others %}
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ request.price }} {{ request.currency }}</td>
+                                <td>{{ request.datetime|date:"d.m.Y H:i" }}</td>
+                                <td>{{ request.comment }}</td>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

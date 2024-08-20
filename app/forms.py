@@ -25,5 +25,5 @@ class RequestForm(forms.ModelForm):
         widgets = {
             'currency': forms.Select(attrs={'class': 'form-control'}), 
             'price': forms.NumberInput(attrs={'class': 'form-control'}),
-            'comment': forms.Textarea(attrs={'class': 'form-control'})
+            'comment': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, 'cols': 30})
         }

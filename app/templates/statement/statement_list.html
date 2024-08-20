@@ -31,7 +31,7 @@
                         </thead>
                         <tbody>
                             {% for statement in statements %}
-                           <tr onclick="window.location.href='{% url 'request-list' statement.pk %}';" style="cursor:pointer;">
+                           <tr onclick="window.location.href='{% url 'request_list' statement.pk %}';" style="cursor:pointer;">
                               <!-- <th scope="row">1</th> -->
                               <td>{{ statement.direction }}</td>
                               <td>{{ statement.shipment_date }}</td>

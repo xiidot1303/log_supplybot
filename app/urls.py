@@ -20,11 +20,12 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
 
     # statement
+    path('', statement.StatementListView.as_view(), name='statement_list'),
     path('statement-list', statement.StatementListView.as_view(), name='statement_list'),
     path('statement-create', statement.StatementCreateView.as_view(), name='statement_create'),
 
     #request
-    path('request-list/<int:statement_id>/', request.RequestListView.as_view(), name='request-list'),
+    path('request-list/<int:statement_id>/', request.RequestListView.as_view(), name='request_list'),
 
     # files
     re_path(r'^files/(?P<path>.*)$', main.get_file),
