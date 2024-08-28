@@ -76,6 +76,7 @@ TEMPLATES = [
             ],
             'builtins': [
                 'app.templatetags.utils_tag',
+                'app.templatetags.services_tag',
             ],
 
         },
@@ -165,3 +166,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "files")
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_BROKER_URL = "redis://localhost:6379"
+
+AUTH_USER_MODEL = 'app.Manager'

@@ -26,6 +26,7 @@ urlpatterns = [
 
     #request
     path('request-list/<int:statement_id>/', request.RequestListView.as_view(), name='request_list'),
+    path('request-accept/<int:request_id>/<int:user_id>/', request.request_accept, name='request_accept'),
 
     # files
     re_path(r'^files/(?P<path>.*)$', main.get_file),

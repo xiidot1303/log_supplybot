@@ -1,5 +1,6 @@
 from app.services import *
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
+from app.models import Manager as User
 from django.db import IntegrityError
 
 async def is_user_in_group(request, *groups):
@@ -14,7 +15,7 @@ async def users_all(exclude_superadmins=False):
         users = users.exclude(is_superuser=True)
     return users
 
-async def get_user_by_pk(pk):
+def get_user_by_pk(pk):
     return get_object_or_404(User, pk=pk)
 
 async def filter_groups_of_user(user):

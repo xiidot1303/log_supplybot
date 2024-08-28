@@ -12,5 +12,5 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django import http
 
-async def redirect_back(request):
+def redirect_back(request):
     return redirect(request.META.get('HTTP_REFERER'))

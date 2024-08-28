@@ -2,6 +2,8 @@
 
 {% block main %}
 
+{% if not user|has_group:"controller" %}
+<!-- Your request -->
 <div class="row">
     <div class="col">
         <div class="card">
@@ -39,6 +41,7 @@
         </div>
     </div>
 </div>
+{% endif %}
 
 <!-- Modal -->
 <div class="modal fade" id="requestModal" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel" aria-hidden="true">
@@ -89,17 +92,27 @@
                                 <th scope="col">Цена</th>
                                 <th scope="col">Дата и время:</th>
                                 <th scope="col">Комментарий:</th>
+                                {% if user|has_group:"controller" %}
+                                <th scope="col"><i class="fas fa-cog"></i></th>
+                                {% endif %}
                             </tr>
                         </thead>
                         <tbody>
+                            {% for request in requests_of_others %}
                             <tr>
-                                {% for request in requests_of_others %}
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ request.price }} {{ request.currency }}</td>
                                 <td>{{ request.datetime|date:"d.m.Y H:i" }}</td>
                                 <td>{{ request.comment }}</td>
-                                {% endfor %}
+                                {% if user|has_group:"controller" %}
+                                <td>
+                                    <a href="{% url 'request_accept' request.id request.user.id %}" class="btn btn-success btn-sm" onclick="confirm('Вы уверены?');">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                </td>
+                                {% endif %}
                             </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>

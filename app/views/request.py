@@ -1,6 +1,9 @@
 from app.views import *
 from app.services.request_service import *
 from app.services.statement_service import *
+import asyncio
+from bot.services.notification_service import request_accepted_notify_job
+from bot.control.updater import application
 
 class RequestListView(LoginRequiredMixin, View):
     template_name = 'request/request_list.html'
@@ -35,6 +38,25 @@ class RequestListView(LoginRequiredMixin, View):
     
         return render(request, self.template_name, context) 
 
+@login_required
+def request_accept(request, request_id, user_id):
+    # get request and user objects
+    request_obj: Request = get_request_by_id(request_id)
+    user: Manager = get_user_by_pk(user_id)
+
+    # change status of statement and request
+    statement: Statement = request_obj.statement
+    statement.end = True
+    statement.save()
+
+    request_obj.selected = True
+    request_obj.save()
+    
+    # send notification to manager about her request is accepted
+    application.job_queue.run_once(
+        request_accepted_notify_job, 0, (user.tg_id, statement, request_obj), chat_id=user.tg_id
+        )
+    return redirect_back(request)
 
 
 # class RequestCreateView(LoginRequiredMixin, CreateView):
