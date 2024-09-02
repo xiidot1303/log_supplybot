@@ -23,3 +23,4 @@ class ManagerAdmin(UserAdmin):
 admin.site.register(Statement, StatementAdmin)
 admin.site.register(Request, Default)
 admin.site.register(Manager, ManagerAdmin)
+admin.site.register(City, Default)

@@ -4,8 +4,15 @@ from django.contrib.auth.models import AbstractUser
 class Manager(AbstractUser):
     tg_id = models.BigIntegerField(null=True, blank=True)
 
+class City(models.Model):
+    title = models.CharField(blank=False, max_length=255)
+
+    def __str__(self) -> str:
+        return self.title
+
 class Statement(models.Model):
-    direction = models.CharField(null=True, blank=False, max_length=255)
+    pickup = models.ForeignKey('app.City', null=True, blank=False, on_delete=models.PROTECT)
+    dropoff = models.ForeignKey('app.City', null=True, blank=False, on_delete=models.PROTECT, related_name="dropoff_city")
     shipment_date = models.DateField(null=True, blank=False)
     end_date = models.DateField(null=True, blank=False)
     TRANSPORT_TYPE_CHOICES = [
@@ -18,6 +25,10 @@ class Statement(models.Model):
     load_capacity = models.IntegerField(null=True, blank=False) # kub
     weight = models.IntegerField(null=True, blank=False) # in tonn
     end = models.BooleanField(default=False)
+
+    @property
+    def direction(self):
+        return f"{self.pickup} - {self.dropoff}"
 
 class Request(models.Model):
     statement = models.ForeignKey('app.Statement', null=True, blank=True, on_delete=models.PROTECT)
