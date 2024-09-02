@@ -4,7 +4,7 @@ from app.services.statement_service import *
 class StatementListView(LoginRequiredMixin, View):
     # @async_to_sync
     def get(self, request):
-        context = {'statements': statements_all()}
+        context = {'statements': filter_uncompleted_statements()}
         return render(request, 'statement/statement_list.html', context)
 
 class StatementCreateView(LoginRequiredMixin, CreateView):
