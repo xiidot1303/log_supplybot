@@ -4,6 +4,9 @@ from django.contrib.auth.models import AbstractUser
 class Manager(AbstractUser):
     tg_id = models.BigIntegerField(null=True, blank=True)
 
+    def __str__(self) -> str:
+        return f"{self.last_name} {self.first_name}"
+
 class City(models.Model):
     title = models.CharField(blank=False, max_length=255)
 

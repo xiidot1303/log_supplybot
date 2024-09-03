@@ -1,5 +1,5 @@
 from telegram import Update
-from telegram.ext import ContextTypes, CallbackContext, ExtBot, Application
+from telegram.ext import ContextTypes, CallbackContext, ExtBot, Application, JobQueue
 from dataclasses import dataclass
 from asgiref.sync import sync_to_async
 from bot.utils import *
