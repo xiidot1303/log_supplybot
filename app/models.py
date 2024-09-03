@@ -11,6 +11,7 @@ class City(models.Model):
         return self.title
 
 class Statement(models.Model):
+    user = models.ForeignKey('app.Manager', null=True, blank=True, on_delete=models.SET_NULL)
     pickup = models.ForeignKey('app.City', null=True, blank=False, on_delete=models.PROTECT)
     dropoff = models.ForeignKey('app.City', null=True, blank=False, on_delete=models.PROTECT, related_name="dropoff_city")
     shipment_date = models.DateField(null=True, blank=False)

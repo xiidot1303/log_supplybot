@@ -18,3 +18,7 @@ class StatementCreateView(LoginRequiredMixin, CreateView):
         context['title'] = 'Создание документа'
         context['header'] = 'Документ'
         return context
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user  # Set the user field
+        return super().form_valid(form)
