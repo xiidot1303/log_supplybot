@@ -2,6 +2,45 @@
 
 {% block main %}
 
+<!-- Current statement -->
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">Заявления №{{ statement.id }}</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <b>Направление:</b> {{ statement.direction }}
+                    </li>
+                    <li class="list-group-item">
+                        <b>Дата отгрузки:</b> {{ statement.shipment_date|date:"d.m.Y" }}
+                    </li>
+                    <li class="list-group-item">
+                        <b>Дата окончания:</b> {{ statement.end_date|date:"d.m.Y" }}
+                    </li>
+                    <li class="list-group-item">
+                        <b>Тип транспорта:</b> {{ statement.transport_type }}
+                    </li>
+                    <li class="list-group-item">
+                        <b>Груз:</b> {{ statement.cargo }}
+                    </li>
+                    <li class="list-group-item">
+                        <b>Грузоподъемность:</b> {{ statement.load_capacity }}
+                    </li>
+                    <li class="list-group-item">
+                        <b>Вес:</b> {{ statement.weight }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {% if not user|has_group:"controller" %}
 <!-- Your request -->
 <div class="row">

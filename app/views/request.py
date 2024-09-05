@@ -11,6 +11,7 @@ class RequestListView(LoginRequiredMixin, View):
     def setup(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> None:
         super().setup(request, *args, **kwargs)
         statement_id = kwargs['statement_id']
+        statement = get_statement_by_id(statement_id)
         # setup request objects
         self.requests_of_others = filter_requests_by_statement(statement_id, request.user.id)
         self.request_of_user = get_request_of_user_by_statement(statement_id, request.user.id)
@@ -20,6 +21,7 @@ class RequestListView(LoginRequiredMixin, View):
         self.context = {
             "requests_of_others": self.requests_of_others,
             "request_of_user": self.request_of_user,
+            "statement": statement,
             "form": self.form
         }
 
