@@ -3,8 +3,11 @@ from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     ReplyKeyboardMarkup,
-    KeyboardButton
+    KeyboardButton,
+    WebAppInfo
 )
+from config import WEBAPP_URL
+from bot.services.language_service import lang_dict
 
 
 async def _inline_footer_buttons(update, buttons, back=True, main_menu=True):
@@ -55,3 +58,13 @@ async def build_keyboard(update, button_list, n_cols, back_button=True, main_men
 
     reply_markup = ReplyKeyboardMarkup(buttons, resize_keyboard=True)
     return reply_markup
+
+async def main_open_buttons():
+    url = f"{WEBAPP_URL}"
+    webapp = WebAppInfo(url)
+    i_buttons = [
+        [InlineKeyboardButton(text=f"📱 {lang_dict['open'][1]}", web_app=webapp)],
+        [InlineKeyboardButton(text=f"🖥 {lang_dict['open'][1]}", url=url)]
+    ]
+    markup = InlineKeyboardMarkup(i_buttons)
+    return markup

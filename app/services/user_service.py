@@ -15,6 +15,9 @@ async def users_all(exclude_superadmins=False):
         users = users.exclude(is_superuser=True)
     return users
 
+async def is_user_available_with_tg_id(tg_id):
+    return await User.objects.filter(tg_id = tg_id).aexists()
+
 def get_user_by_pk(pk):
     return get_object_or_404(User, pk=pk)
 

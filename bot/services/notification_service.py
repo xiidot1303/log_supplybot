@@ -21,3 +21,9 @@ async def new_statement_info_to_managers_notify_job(context: CustomContext):
         ]
         markup = InlineKeyboardMarkup(i_buttons)
         await send_newsletter(bot, manager.tg_id, text, reply_markup=markup)
+
+async def send_start_message_notify_job(context: CustomContext):
+    user_id = context.job.data
+    text = lang_dict['start text'][1]
+    markup = await main_open_buttons()
+    await send_newsletter(bot, user_id, text, reply_markup=markup)

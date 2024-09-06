@@ -18,6 +18,8 @@ urlpatterns = [
     path('changepassword/done/', PasswordChangeDoneView.as_view(
         template_name = 'registration/afterchanging.html'), name='password_change_done'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path("telegram_login", main.telegram_login),
+
 
     # statement
     path('', statement.StatementListView.as_view(), name='statement_list'),
