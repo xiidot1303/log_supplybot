@@ -5,7 +5,7 @@ class Manager(AbstractUser):
     tg_id = models.BigIntegerField(null=True, blank=True)
 
     def __str__(self) -> str:
-        return f"{self.last_name} {self.first_name}"
+        return self.first_name
 
 class City(models.Model):
     title = models.CharField(verbose_name='Название города', blank=False, max_length=255)

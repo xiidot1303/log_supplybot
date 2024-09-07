@@ -15,6 +15,10 @@ async def users_all(exclude_superadmins=False):
         users = users.exclude(is_superuser=True)
     return users
 
+def filter_managers():
+    query = User.objects.filter(is_superuser=False).exclude(groups__name='controller')
+    return query
+
 async def is_user_available_with_tg_id(tg_id):
     return await User.objects.filter(tg_id = tg_id).aexists()
 

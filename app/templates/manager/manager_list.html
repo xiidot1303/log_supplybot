@@ -1,0 +1,48 @@
+{% extends "layout/basic.html" %}
+
+{% block main %}
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">Менеджеры</h4>
+                </div>
+                <div class="header-action">
+                    <a href="{% url 'manager_create' %}">
+                        <button class="btn btn-primary btn-sm">Создать</button>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                           <tr>
+                              <!-- <th scope="col">#</th> -->
+                              <th scope="col">Логин</th>
+                              <th scope="col">Имя</th>
+                              <th scope="col">Фамилия</th>
+                              <th scope="col">Действие</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                            {% for manager in managers %}
+                           <tr>
+                                <td>{{ manager.username }}</td>
+                                <td>{{ manager.first_name }}</td>
+                                <td>{{ manager.last_name }}</td>
+                                <td>
+                                    <a href="{% url 'manager_update' manager.pk %}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                    <a href="{% url 'manager_delete' manager.pk %}" class="btn btn-danger btn-sm" onclick="confirm('Вы уверены?');"><i class="fas fa-trash"></i></a>
+                                </td>
+                           </tr>
+                           {% endfor %}
+                        </tbody>
+                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

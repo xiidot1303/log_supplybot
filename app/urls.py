@@ -7,7 +7,7 @@ from django.contrib.auth.views import (
 )
 
 from app.views import (
-    main, statement, request
+    main, statement, request, manager
 )
 
 urlpatterns = [
@@ -29,6 +29,13 @@ urlpatterns = [
     #request
     path('request-list/<int:statement_id>/', request.RequestListView.as_view(), name='request_list'),
     path('request-accept/<int:request_id>/<int:user_id>/', request.request_accept, name='request_accept'),
+
+    # manager
+    path('manager-list', manager.manager_list, name='manager_list'),
+    path('manager-create', manager.ManagerCreateView.as_view(), name='manager_create'),
+    path('manager-update/<int:pk>/', manager.ManagerUpdateView.as_view(), name='manager_update'),
+    path('manager-changepassword/<int:pk>/', manager.ManagerPasswordChangeView.as_view(), name='manager_passwordchange'),
+    path('manager-delete/<int:pk>/', manager.manager_delete, name='manager_delete'),
 
     # files
     re_path(r'^files/(?P<path>.*)$', main.get_file),

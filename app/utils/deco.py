@@ -8,9 +8,9 @@ async def go_to_login(request):
     path = await request.get_full_path()
     return redirect_to_login(path)
 
-async def group_required(*groups):
-    async def decorator(function):
-        async def wrapper(request, *args, **kwargs):
+def group_required(*groups):
+    def decorator(function):
+        def wrapper(request, *args, **kwargs):
             if is_user_in_group(request, *groups):
                 return function(request, *args, **kwargs)
             raise PermissionDenied
