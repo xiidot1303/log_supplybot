@@ -1,11 +1,12 @@
 from bot.services.language_service import *
 from app.models import Statement, Request
+from asgiref.sync import sync_to_async
 
 async def statement_info_string(statement: Statement):
     text = ""
     for field in Statement._meta.get_fields():
         if field.name not in ["end", "request", 'user']:
-            text += f"{field.verbose_name}: {getattr(statement, field.name)}\n"
+            text += f"{field.verbose_name}: {await sync_to_async(getattr)(statement, field.name)}\n"
 
     return text
 
