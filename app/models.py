@@ -22,7 +22,7 @@ class Statement(models.Model):
     pickup = models.ForeignKey('app.City', verbose_name='Место отправки', null=True, blank=False, on_delete=models.PROTECT)
     dropoff = models.ForeignKey('app.City', verbose_name='Место доставки', null=True, blank=False, on_delete=models.PROTECT, related_name="dropoff_city")
     shipment_date = models.DateField(verbose_name='Дата отправки', null=True, blank=False)
-    end_date = models.DateField(verbose_name='Дата окончания', null=True, blank=False)
+    end_date = models.DateField(verbose_name='Дата завершения выписки', null=True, blank=False)
     TRANSPORT_TYPE_CHOICES = [
         (1, 'Тент (Стандарт)'),
         (2, 'Тент (Паровоз)'),

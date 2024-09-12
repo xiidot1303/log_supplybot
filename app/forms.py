@@ -21,6 +21,16 @@ class StatementForm(forms.ModelForm):
             'weight': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
+    def clean(self):
+            cleaned_data = super().clean()
+            shipment_date = cleaned_data.get('shipment_date')
+            end_date = cleaned_data.get('end_date')
+
+            if end_date and shipment_date and end_date > shipment_date:
+                self.add_error('end_date', 'Дата окончания не может быть позже даты отгрузки.')
+
+            return cleaned_data
+
 class RequestForm(forms.ModelForm):
     class Meta:
         model = Request
