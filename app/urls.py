@@ -24,7 +24,7 @@ urlpatterns = [
     # statement
     path('', statement.StatementListView.as_view(), name='statement_list'),
     path('statement-list', statement.StatementListView.as_view(), name='statement_list'),
-    path('statement-create', statement.StatementCreateView.as_view(), name='statement_create'),
+    path('statement-create', statement.StatementAndRequestCreateView.as_view(), name='statement_create'),
 
     #request
     path('request-list/<int:statement_id>/', request.RequestListView.as_view(), name='request_list'),

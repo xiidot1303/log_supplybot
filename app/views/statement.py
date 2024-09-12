@@ -1,5 +1,6 @@
 from app.views import *
 from app.services.statement_service import *
+from django.db import transaction
 
 class StatementListView(LoginRequiredMixin, View):
     # @async_to_sync
@@ -24,4 +25,40 @@ class StatementCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     
-    
+class StatementAndRequestCreateView(LoginRequiredMixin, View):
+    def get(self, request):
+        statement_form = StatementForm()
+        request_form = RequestForm()
+        context = {
+            'forms': [statement_form, request_form],
+            'title' :'Создание документа',
+            'header': 'Документ'
+        }
+        return render(request, 'statement/statement_create.html', context)
+
+    def post(self, request):
+        statement_form = StatementForm(request.POST)
+        request_form = RequestForm(request.POST)
+        
+        if statement_form.is_valid() and request_form.is_valid():
+            with transaction.atomic():  # Ensure both forms are saved atomically
+                # Save the Statement
+                statement = statement_form.save(commit=False)
+                statement.user = request.user
+                statement.save()
+
+                # Save the Request and link it to the Statement
+                request_obj = request_form.save(commit=False)
+                request_obj.user = request.user
+                request_obj.statement = statement
+                request_obj.save()
+
+            return redirect('statement_list')  # Redirect to the statement list page after successful creation
+
+        # If forms are not valid, render the page again with form errors
+        context = {
+            'forms': [statement_form, request_form],
+            'title' :'Создание документа',
+            'header': 'Документ'
+        }
+        return render(request, 'statement/statement_create.html', context)
