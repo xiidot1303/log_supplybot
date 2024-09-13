@@ -23,7 +23,7 @@
         <form method = "post" enctype="multipart/form-data">
             {% csrf_token %}
             <label for="map">Место отправки</label>
-            <div id="map" style="height: 200px; width: 50%;"></div>
+            <div id="map" style="height: 300px; width: 100%;"></div>
             {% for form in forms %}
             {% if forloop.counter == 2 %}
             <h4 class="mb-3 mt-5">Ваше предложение</h4>
