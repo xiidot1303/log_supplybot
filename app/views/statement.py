@@ -43,8 +43,13 @@ class StatementAndRequestCreateView(LoginRequiredMixin, View):
         if statement_form.is_valid() and request_form.is_valid():
             with transaction.atomic():  # Ensure both forms are saved atomically
                 # Save the Statement
-                statement = statement_form.save(commit=False)
+                statement: Statement = statement_form.save(commit=False)
                 statement.user = request.user
+                country, city_name, *args = statement.pickup_address.split(',')
+                city_name = city_name.strip()
+                # get or create city by name
+                city: City = get_or_create_city_by_name(city_name)
+                statement.pickup = city
                 statement.save()
 
                 # Save the Request and link it to the Statement

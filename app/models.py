@@ -21,6 +21,9 @@ class Statement(models.Model):
     user = models.ForeignKey('app.Manager', verbose_name='Менеджер', null=True, blank=True, on_delete=models.SET_NULL)
     pickup = models.ForeignKey('app.City', verbose_name='Место отправки', null=True, blank=False, on_delete=models.PROTECT)
     dropoff = models.ForeignKey('app.City', verbose_name='Место доставки', null=True, blank=False, on_delete=models.PROTECT, related_name="dropoff_city")
+    pickup_lat = models.FloatField(null=True, blank=True)
+    pickup_lon = models.FloatField(null=True, blank=True)
+    pickup_address = models.CharField(null=True, blank=True, max_length=255, verbose_name="Адрес отправки")
     shipment_date = models.DateField(verbose_name='Дата отправки', null=True, blank=False)
     end_date = models.DateField(verbose_name='Дата завершения выписки', null=True, blank=False)
     TRANSPORT_TYPE_CHOICES = [

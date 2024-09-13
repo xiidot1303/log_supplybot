@@ -9,7 +9,12 @@
 {% endif %}
 {% endblock %}
 
+{% block link %}
+<script src="https://api-maps.yandex.ru/2.1/?apikey=7dce7197-3bb7-44c6-ada9-f9386072b098&lang=en_US" type="text/javascript"></script>
+{% endblock %}
+
 {% block main %}
+
 <div class="card">
     <div class="card-header">
         <h4>Создание - {{ header }}</h4>
@@ -17,6 +22,8 @@
     <div class="card-body">
         <form method = "post" enctype="multipart/form-data">
             {% csrf_token %}
+            <label for="map">Место отправки</label>
+            <div id="map" style="height: 200px; width: 50%;"></div>
             {% for form in forms %}
             {% if forloop.counter == 2 %}
             <h4 class="mb-3 mt-5">Ваше предложение</h4>
@@ -78,5 +85,61 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    ymaps.ready(init);
+
+    function init() {
+        // Initialize the map
+        var map = new ymaps.Map("map", {
+            center: [39.6542, 66.9597],  // Default center
+            zoom: 10
+        });
+
+        // Add a placemark to the map
+        var placemark = new ymaps.Placemark(map.getCenter(), {}, {
+            draggable: true
+        });
+        map.geoObjects.add(placemark);
+
+        // Update hidden form fields for latitude and longitude
+        function updateCoordinates(coords) {
+            document.getElementById('id_pickup_lat').value = coords[0];
+            document.getElementById('id_pickup_lon').value = coords[1];
+        }
+
+        // Function to fetch address from Yandex Geocoding API
+        function updateAddress(coords) {
+            ymaps.geocode(coords).then(function (res) {
+                var firstGeoObject = res.geoObjects.get(0);
+                var address = firstGeoObject.getAddressLine();  // Full address as text
+                document.getElementById('id_pickup_address').value = address;
+            });
+        }
+
+        // Set initial coordinates and address
+        var initialCoords = placemark.geometry.getCoordinates();
+        updateCoordinates(initialCoords);
+        updateAddress(initialCoords);
+
+        // Update coordinates and address when the placemark is dragged
+        placemark.events.add('dragend', function () {
+            var coords = placemark.geometry.getCoordinates();
+            updateCoordinates(coords);
+            updateAddress(coords);
+        });
+
+        // Update placemark position, coordinates, and address when map is clicked
+        map.events.add('click', function (e) {
+            var coords = e.get('coords');
+            placemark.geometry.setCoordinates(coords);
+            updateCoordinates(coords);
+            updateAddress(coords);
+        });
+    }
+</script>
+
+{% endblock %}
+
+{% block script %}
 
 {% endblock %}

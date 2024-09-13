@@ -8,10 +8,13 @@ from django.urls import reverse
 class StatementForm(forms.ModelForm):
     class Meta:
         model = Statement
-        fields = ['pickup', 'dropoff', 'shipment_date', 'end_date', 'transport_type', 'cargo', 'load_capacity', 'weight']  # Define the order of fields
+        fields = ['pickup_address', 'dropoff', 'shipment_date', 'end_date', 'transport_type', 'cargo', 'load_capacity', 'weight', 'pickup_lat', 'pickup_lon']  # Define the order of fields
 
         widgets = {
+            'pickup_address': forms.TextInput(attrs={'class': 'form-control'}),
             'pickup': forms.Select(attrs={'class': 'form-control choicesjs'}),
+            'pickup_lat': forms.HiddenInput(),
+            'pickup_lon': forms.HiddenInput(),
             'dropoff': forms.Select(attrs={'class': 'form-control choicesjs'}),
             'shipment_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'end_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
@@ -19,6 +22,11 @@ class StatementForm(forms.ModelForm):
             'cargo': forms.TextInput(attrs={'class': 'form-control'}),
             'load_capacity': forms.NumberInput(attrs={'class': 'form-control'}),
             'weight': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+        labels = {
+            'pickup_lat': "",
+            'pickup_lon': "",
         }
 
     def clean(self):
